@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Belajar — Materi</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand"><div class="logo">B</div><div class="brand-text"><div class="brand-title">Belajar</div><div class="brand-sub">Materi</div></div></div>
+      <nav class="nav-links">
+        <a href="./index.html">Roadmap</a><a class="active" href="./materi.html">Materi</a><a href="./catatan.html">Catatan</a><a href="./tools.html">Tools</a><a href="./project.html">Final Project</a>
+      </nav>
+      <button id="toggle-theme" class="btn ghost sm"><span id="theme-label">Terang</span></button>
+    </div>
+  </header>
+
+  <main class="container" style="margin:20px 0 10px">
+    <div class="card">
+      <div class="search">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <input id="q" placeholder="Cari judul materi…">
+      </div>
+    </div>
+    <div id="materi-list" class="links" style="margin-top:12px"></div>
+  </main>
+
+  <footer class="site-footer"><div class="container f-wrap">© <span id="year"></span> — Belajar</div></footer>
+
+  <script>document.querySelector('#year').textContent = new Date().getFullYear()</script>
+  <script src="./data.js"></script>
+  <script>
+    const THEME_KEY='sysadmin_theme_v2';
+    function setTheme(t){ if(t==='dark')document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); localStorage.setItem(THEME_KEY,t); document.getElementById('theme-label').textContent=t==='dark'?'Terang':'Gelap'; }
+    function initTheme(){ setTheme(localStorage.getItem(THEME_KEY)||'dark'); }
+    function toggleTheme(){ setTheme(document.documentElement.classList.contains('dark')?'light':'dark') }
+    initTheme(); document.getElementById('toggle-theme').addEventListener('click',toggleTheme);
+
+    const list = document.getElementById("materi-list");
+    const q = document.getElementById("q");
+    function render(){
+      const query = (q.value||'').toLowerCase().trim();
+      list.innerHTML = '';
+      const items = [];
+      (window.ROADMAP_DATA||[]).forEach(mod=>{
+        (mod.links||[]).forEach(l=>{ items.push({label:l.label,url:l.url,mod:mod.title}); });
+      });
+      items.filter(x=>!query || x.label.toLowerCase().includes(query) || x.mod.toLowerCase().includes(query))
+        .forEach(x=>{
+          const a = document.createElement('a');
+          a.className='link'; a.href=x.url; a.target='_blank'; a.rel='noopener noreferrer';
+          a.innerHTML = `🔗 <span>${x.label}</span> <span style="margin-left:auto" class="small muted">(${x.mod})</span>`;
+          list.appendChild(a);
+        });
+      if(!list.children.length){
+        const none = document.createElement('div'); none.className='small muted'; none.textContent='Tidak ada hasil.'; list.appendChild(none);
+      }
+    }
+    q.addEventListener('input',render); render();
+  </script>
+</body>
+</html>

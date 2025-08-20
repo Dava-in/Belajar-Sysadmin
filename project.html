@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Belajar — Final Project</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand"><div class="logo">B</div><div class="brand-text"><div class="brand-title">Belajar</div><div class="brand-sub">Final Project</div></div></div>
+      <nav class="nav-links">
+        <a href="./index.html">Roadmap</a><a href="./materi.html">Materi</a><a href="./catatan.html">Catatan</a><a href="./tools.html">Tools</a><a class="active" href="./project.html">Final Project</a>
+      </nav>
+      <button id="toggle-theme" class="btn ghost sm"><span id="theme-label">Terang</span></button>
+    </div>
+  </header>
+
+  <main class="container" style="margin:20px 0 10px">
+    <div class="card">
+      <p><b>Tujuan:</b> Deploy server cloud (AWS/GCP/Azure) menjalankan Nginx + DB, UFW aktif, backup otomatis, monitoring Netdata.</p>
+      <ul id="steps" style="line-height:1.9;list-style:none;padding:0">
+        <li><label><input type="checkbox"> Provision 1 VM + user non-root sudo</label></li>
+        <li><label><input type="checkbox"> Pasang Nginx (reverse proxy jika perlu) & DB</label></li>
+        <li><label><input type="checkbox"> UFW: buka 22, 80/443 • SSH key-based</label></li>
+        <li><label><input type="checkbox"> Backup otomatis (rsync/tar + cron)</label></li>
+        <li><label><input type="checkbox"> Install Netdata & uji beban</label></li>
+        <li><label><input type="checkbox"> Dokumentasi & publikasi skrip</label></li>
+      </ul>
+      <div class="small muted">Checklist tersimpan otomatis di browser.</div>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container f-wrap">© <span id="year"></span> — Belajar</div></footer>
+
+  <script>document.querySelector('#year').textContent = new Date().getFullYear()</script>
+  <script>
+    const THEME_KEY='sysadmin_theme_v2';
+    const STEP_KEY='final_project_steps_v1';
+    function setTheme(t){ if(t==='dark')document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); localStorage.setItem(THEME_KEY,t); document.getElementById('theme-label').textContent=t==='dark'?'Terang':'Gelap'; }
+    function initTheme(){ setTheme(localStorage.getItem(THEME_KEY)||'dark'); }
+    function toggleTheme(){ setTheme(document.documentElement.classList.contains('dark')?'light':'dark') }
+    initTheme(); document.getElementById('toggle-theme').addEventListener('click',toggleTheme);
+
+    const steps=document.querySelectorAll('#steps input[type="checkbox"]');
+    const saved = JSON.parse(localStorage.getItem(STEP_KEY)||'{}');
+    steps.forEach((cb,i)=>{ cb.checked = !!saved[i]; cb.addEventListener('change',()=>{
+      const s = JSON.parse(localStorage.getItem(STEP_KEY)||'{}'); s[i]=cb.checked; localStorage.setItem(STEP_KEY, JSON.stringify(s));
+    }); });
+  </script>
+</body>
+</html>

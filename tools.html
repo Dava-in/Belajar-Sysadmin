@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Belajar — Tools</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .cmd{padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:12px;background:transparent}
+    .cmd code{background:#0003;padding:2px 6px;border-radius:6px}
+    .tag{border:1px dashed var(--border);padding:4px 8px;border-radius:999px;font-size:12px;margin-left:6px}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand"><div class="logo">B</div><div class="brand-text"><div class="brand-title">Belajar</div><div class="brand-sub">Tools</div></div></div>
+      <nav class="nav-links">
+        <a href="./index.html">Roadmap</a><a href="./materi.html">Materi</a><a href="./catatan.html">Catatan</a><a class="active" href="./tools.html">Tools</a><a href="./project.html">Final Project</a>
+      </nav>
+      <button id="toggle-theme" class="btn ghost sm"><span id="theme-label">Terang</span></button>
+    </div>
+  </header>
+
+  <main class="container" style="margin:20px 0 10px">
+    <div class="card">
+      <div class="search">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <input id="q" placeholder="Cari command… contoh: systemctl, rsync">
+      </div>
+    </div>
+    <div id="list" style="margin-top:12px"></div>
+  </main>
+
+  <footer class="site-footer"><div class="container f-wrap">© <span id="year"></span> — Belajar</div></footer>
+
+  <script>document.querySelector('#year').textContent = new Date().getFullYear()</script>
+  <script>
+    const THEME_KEY='sysadmin_theme_v2';
+    function setTheme(t){ if(t==='dark')document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); localStorage.setItem(THEME_KEY,t); document.getElementById('theme-label').textContent=t==='dark'?'Terang':'Gelap'; }
+    function initTheme(){ setTheme(localStorage.getItem(THEME_KEY)||'dark'); }
+    function toggleTheme(){ setTheme(document.documentElement.classList.contains('dark')?'light':'dark') }
+    initTheme(); document.getElementById('toggle-theme').addEventListener('click',toggleTheme);
+
+    const COMMANDS=[
+      {cmd:'ls', desc:'Lihat isi direktori', ex:'ls -lah', tags:['filesystem']},
+      {cmd:'chmod', desc:'Ubah permission file', ex:'chmod 755 file.sh', tags:['permission']},
+      {cmd:'chown', desc:'Ubah pemilik file', ex:'chown user:group file.txt', tags:['permission']},
+      {cmd:'systemctl', desc:'Kelola service (systemd)', ex:'systemctl restart nginx', tags:['service']},
+      {cmd:'journalctl', desc:'Lihat log systemd', ex:'journalctl -u nginx --since=today', tags:['log']},
+      {cmd:'htop', desc:'Monitoring proses', ex:'htop', tags:['monitoring']},
+      {cmd:'ufw', desc:'Firewall sederhana', ex:'ufw allow 22', tags:['security']},
+      {cmd:'iptables', desc:'Firewall rules lanjutan', ex:'iptables -L -n', tags:['security']},
+      {cmd:'rsync', desc:'Sinkronisasi/backup', ex:'rsync -av /src /backup', tags:['backup']},
+      {cmd:'tar', desc:'Arsip/kompres file', ex:'tar -czvf backup.tar.gz /data', tags:['backup']},
+      {cmd:'ssh', desc:'Remote server', ex:'ssh -i key.pem user@host', tags:['network']},
+      {cmd:'curl', desc:'HTTP request', ex:'curl -I https://example.com', tags:['network']},
+    ];
+    const list = document.getElementById('list');
+    const q = document.getElementById('q');
+    function render(){
+      const query=(q.value||'').toLowerCase().trim();
+      list.innerHTML='';
+      COMMANDS.filter(x=>!query || x.cmd.includes(query) || x.desc.toLowerCase().includes(query) || x.tags.join(' ').includes(query))
+        .forEach(x=>{
+          const div=document.createElement('div'); div.className='cmd card';
+          div.innerHTML = \`<b>\${x.cmd}</b> — \${x.desc} <span class="tag">\${x.tags.join(', ')}</span><br><code>\${x.ex}</code>\`;
+          list.appendChild(div);
+        });
+      if(!list.children.length){
+        const none=document.createElement('div'); none.className='small muted'; none.textContent='Tidak ada hasil.'; list.appendChild(none);
+      }
+    }
+    q.addEventListener('input',render); render();
+  </script>
+</body>
+</html>

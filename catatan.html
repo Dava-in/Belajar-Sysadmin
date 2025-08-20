@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Belajar — Catatan</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    textarea{width:100%;height:68vh;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--fg)}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand"><div class="logo">B</div><div class="brand-text"><div class="brand-title">Belajar</div><div class="brand-sub">Catatan</div></div></div>
+      <nav class="nav-links">
+        <a href="./index.html">Roadmap</a><a href="./materi.html">Materi</a><a class="active" href="./catatan.html">Catatan</a><a href="./tools.html">Tools</a><a href="./project.html">Final Project</a>
+      </nav>
+      <button id="toggle-theme" class="btn ghost sm"><span id="theme-label">Terang</span></button>
+    </div>
+  </header>
+
+  <main class="container" style="margin:20px 0 10px">
+    <div class="card" style="margin-bottom:12px">
+      <div class="small muted">Tips: gunakan heading (###), daftar (-), kode (`code`) untuk merapikan catatan.</div>
+    </div>
+    <textarea id="note" placeholder="Tulis catatanmu di sini…"></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button id="export" class="btn">Export .txt</button>
+      <button id="clear" class="btn ghost">Hapus Semua</button>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container f-wrap">© <span id="year"></span> — Belajar</div></footer>
+  <script>document.querySelector('#year').textContent = new Date().getFullYear()</script>
+  <script>
+    const THEME_KEY='sysadmin_theme_v2';
+    function setTheme(t){ if(t==='dark')document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); localStorage.setItem(THEME_KEY,t); document.getElementById('theme-label').textContent=t==='dark'?'Terang':'Gelap'; }
+    function initTheme(){ setTheme(localStorage.getItem(THEME_KEY)||'dark'); }
+    function toggleTheme(){ setTheme(document.documentElement.classList.contains('dark')?'light':'dark') }
+    initTheme(); document.getElementById('toggle-theme').addEventListener('click',toggleTheme);
+
+    const KEY='belajar_notes_v1';
+    const note = document.getElementById('note');
+    note.value = localStorage.getItem(KEY)||'';
+    note.addEventListener('input', ()=> localStorage.setItem(KEY, note.value));
+
+    document.getElementById('clear').addEventListener('click', ()=>{
+      if(confirm('Hapus semua catatan?')){ localStorage.removeItem(KEY); note.value=''; }
+    });
+    document.getElementById('export').addEventListener('click', ()=>{
+      const blob = new Blob([note.value], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='catatan-belajar.txt'; a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

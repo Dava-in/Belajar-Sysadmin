@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Belajar — Roadmap Sysadmin</title>
+<meta content="Belajar — Roadmap Sysadmin 1 Bulan. Cari materi, tandai progress, dan lompat ke sub-halaman pendukung." name="description"/>
+<link href="./styles.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<div class="container head-wrap">
+<div class="brand">
+<div class="logo">B</div>
+<div class="brand-text">
+<div class="brand-title">Belajar</div>
+<div class="brand-sub">Roadmap Sysadmin 1 Bulan • 3 jam/hari</div>
+</div>
+</div>
+<nav class="nav-links">
+<a class="active" href="./index.html">Roadmap</a>
+<a href="./materi.html">Materi</a>
+<a href="./catatan.html">Catatan</a>
+<a href="./tools.html">Tools</a>
+<a href="./project.html">Final Project</a>
+</nav>
+<button class="btn ghost sm" id="toggle-theme" title="Ganti tema">
+<span id="theme-label">Terang</span>
+</button>
+</div>
+</header>
+<section class="hero">
+<div class="container hero-inner">
+<div class="hero-left">
+<h1>Belajar Sysadmin — cepat, rapi, terstruktur.</h1>
+<p>Ikuti roadmap 30 hari untuk menguasai Linux, server, jaringan, keamanan, dan deployment. Tandai progresmu, cari materi, dan lompat ke sub-halaman pendukung.</p>
+<div class="hero-cta">
+<a class="btn primary" href="#content">Mulai Sekarang</a>
+<a class="btn ghost" href="./project.html">Lihat Final Project</a>
+</div>
+<div class="chips">
+<span class="chip">Linux</span><span class="chip">Nginx</span><span class="chip">SSH</span><span class="chip">Firewall</span><span class="chip">Docker</span>
+</div>
+</div>
+<div class="hero-right">
+<div class="glass stat">
+<div class="stat-big" id="progress-pct">0%</div>
+<div class="stat-sub">Progres Selesai</div>
+<div class="progress-bar"><div id="progress-fill"></div></div>
+<div class="muted small" id="progress-text">0 dari 26 modul selesai</div>
+</div>
+<div class="glass links-grid">
+<a class="quick" href="./materi.html">📚 Semua Materi</a>
+<a class="quick" href="./catatan.html">📝 Catatan</a>
+<a class="quick" href="./tools.html">🧰 Tools</a>
+<a class="quick" href="./project.html">🚀 Final Project</a>
+</div>
+</div>
+</div>
+</section>
+<main class="container">
+<div class="toolbar card">
+<div class="search">
+<svg class="icon" fill="none" height="20" viewbox="0 0 24 24" width="20">
+<path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
+</svg>
+<input id="search" placeholder="Cari materi… contoh: nginx, ssh, docker"/>
+</div>
+<div class="pills">
+<button class="pill active" data-key="all">Semua</button>
+<button class="pill" data-key="1">Minggu 1</button>
+<button class="pill" data-key="2">Minggu 2</button>
+<button class="pill" data-key="3">Minggu 3</button>
+<button class="pill" data-key="4">Minggu 4</button>
+</div>
+<div class="toolbar-actions">
+<button class="btn ghost" id="reset">Reset Progress</button>
+<a class="btn" href="#subpages">Sub-Halaman</a>
+</div>
+</div>
+<div id="content"></div>
+<section class="section-sp" id="subpages">
+<h2>Sub-Halaman Pendukung</h2>
+<div class="grid-4">
+<a class="card linkcard" href="./materi.html">
+<div class="lc-emoji">📚</div>
+<div class="lc-title">Materi</div>
+<div class="lc-sub">Semua tautan belajar dari roadmap</div>
+</a>
+<a class="card linkcard" href="./catatan.html">
+<div class="lc-emoji">📝</div>
+<div class="lc-title">Catatan</div>
+<div class="lc-sub">Wiki kecil &amp; dokumentasi pribadimu</div>
+</a>
+<a class="card linkcard" href="./tools.html">
+<div class="lc-emoji">🧰</div>
+<div class="lc-title">Tools</div>
+<div class="lc-sub">Cheatsheet interaktif command Linux</div>
+</a>
+<a class="card linkcard" href="./project.html">
+<div class="lc-emoji">🚀</div>
+<div class="lc-title">Final Project</div>
+<div class="lc-sub">End‑to‑end deployment &amp; checklist</div>
+</a>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container f-wrap">
+<div>© <span id="year"></span> — Belajar</div>
+<div class="muted">Didesain modern + interaktif. Data lokal disimpan di browser.</div>
+</div>
+</footer>
+<script>document.querySelector('#year').textContent = new Date().getFullYear()</script>
+<script src="./data.js"></script><script src="./script.js"></script>
+</body>
+</html>
